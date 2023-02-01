@@ -1,6 +1,8 @@
 package net.trevi4ko.Trevi4koMod;
 
 import com.mojang.logging.LogUtils;
+import item.ModItems;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
@@ -24,6 +26,8 @@ public class Trevi4koMod
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        ModItems.ITEMS.register(modEventBus);
+
         modEventBus.addListener(this::commonSetup);
 
 
@@ -38,8 +42,10 @@ public class Trevi4koMod
 
     }
 
-    private void addCreative(CreativeModeTabEvent.BuildContents event)
-    {
+    private void addCreative(CreativeModeTabEvent.BuildContents event) {
+        if (event.getTab() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ModItems.BLACK_OPAL);
+        }
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
